@@ -19,51 +19,46 @@ package org.geotools.referencing.factory;
 import org.opengis.referencing.NoSuchAuthorityCodeException;
 
 import org.junit.*;
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.*;
 
 /**
  * Tests the {@link URN_Parser} class.
  *
- *
- *
- * @source $URL$
- * @version $Id$
  * @author Martin Desruisseaux
+ * @version $Id$
+ * @source $URL$
  */
 public final class URN_ParserTest {
 
     /**
      * Parses a valid URN.
      */
-    @Test
-    public void testParse() throws NoSuchAuthorityCodeException {
+    @Test public void testParse() throws NoSuchAuthorityCodeException {
         final URN_Parser parser = URN_Parser.buildParser("urn:ogc:def:CRS:EPSG:6.11.2:4326");
-        assertEquals("crs",       parser.type.name);
-        assertEquals("EPSG",      parser.authority);
-        assertEquals("6.11.2",    parser.version.toString());
-        assertEquals("4326",      parser.code);
+        assertEquals("crs", parser.type.name);
+        assertEquals("EPSG", parser.authority);
+        assertEquals("6.11.2", parser.version.toString());
+        assertEquals("4326", parser.code);
         assertEquals("EPSG:4326", parser.getAuthorityCode());
     }
 
     /**
      * Parses a valid URN without version.
      */
-    @Test
-    public void testParseWithoutVersion() throws NoSuchAuthorityCodeException {
+    @Test public void testParseWithoutVersion() throws NoSuchAuthorityCodeException {
         final URN_Parser parser = URN_Parser.buildParser("urn:ogc:def:CRS:EPSG:4326");
-        assertEquals("crs",       parser.type.name);
-        assertEquals("EPSG",      parser.authority);
-        assertNull  (             parser.version);
-        assertEquals("4326",      parser.code);
+        assertEquals("crs", parser.type.name);
+        assertEquals("EPSG", parser.authority);
+        assertNull(parser.version);
+        assertEquals("4326", parser.code);
         assertEquals("EPSG:4326", parser.getAuthorityCode());
     }
 
     /**
      * Parses an invalid URN.
      */
-    @Test
-    public void testInvalidParse() {
+    @Test public void testInvalidParse() {
         final String urn = "urn:ogcx:def:CRS:EPSG:6.8:4326";
         try {
             URN_Parser.buildParser(urn);
@@ -77,8 +72,7 @@ public final class URN_ParserTest {
     /**
      * Parses a URN with an unknow type.
      */
-    @Test
-    public void testInvalidType() {
+    @Test public void testInvalidType() {
         final String urn = "urn:ogc:def:dummy:EPSG:6.8:4326";
         try {
             URN_Parser.buildParser(urn);
@@ -89,57 +83,52 @@ public final class URN_ParserTest {
         }
     }
 
-    @Test
-    public void testOgcCRS84() throws NoSuchAuthorityCodeException {
+    @Test public void testOgcCRS84() throws NoSuchAuthorityCodeException {
         final String urn_crs84 = "urn:ogc:def:crs:OGC:1.3:CRS84";
         final URN_Parser parser = URN_Parser.buildParser(urn_crs84);
-        assertEquals("crs",       parser.type.name);
-        assertEquals("CRS",       parser.authority);
-        assertEquals("1.3",       parser.version.toString());
-        assertEquals("84",        parser.code);
-        assertEquals("CRS:84",    parser.getAuthorityCode());
+        assertEquals("crs", parser.type.name);
+        assertEquals("CRS", parser.authority);
+        assertEquals("1.3", parser.version.toString());
+        assertEquals("84", parser.code);
+        assertEquals("CRS:84", parser.getAuthorityCode());
     }
 
-    @Test
-    public void testOgcCRS84NoVersion() throws NoSuchAuthorityCodeException {
+    @Test public void testOgcCRS84NoVersion() throws NoSuchAuthorityCodeException {
         final String urn_crs84 = "urn:ogc:def:crs:OGC:CRS84";
         final URN_Parser parser = URN_Parser.buildParser(urn_crs84);
-        assertEquals("crs",       parser.type.name);
-        assertEquals("CRS",       parser.authority);
-        assertNull(       parser.version);
-        assertEquals("84",        parser.code);
-        assertEquals("CRS:84",    parser.getAuthorityCode());
+        assertEquals("crs", parser.type.name);
+        assertEquals("CRS", parser.authority);
+        assertNull(parser.version);
+        assertEquals("84", parser.code);
+        assertEquals("CRS:84", parser.getAuthorityCode());
     }
 
-    @Test
-    public void testAutoLatLon() throws NoSuchAuthorityCodeException {
+    @Test public void testAutoLatLon() throws NoSuchAuthorityCodeException {
         final String urn_auto = "urn:ogc:def:crs:OGC:1.3:AUTO42002:180:90";
         final URN_Parser parser = URN_Parser.buildParser(urn_auto);
-        assertEquals("crs",          parser.type.name);
-        assertEquals("AUTO",         parser.authority);
-        assertEquals("1.3",          parser.version.toString());
+        assertEquals("crs", parser.type.name);
+        assertEquals("AUTO", parser.authority);
+        assertEquals("1.3", parser.version.toString());
         assertEquals("42002,180,90", parser.code);
         assertEquals("AUTO:42002,180,90", parser.getAuthorityCode());
     }
 
-    @Test
-    public void testAuto() throws NoSuchAuthorityCodeException {
+    @Test public void testAuto() throws NoSuchAuthorityCodeException {
         final String urn_auto = "urn:ogc:def:crs:OGC:1.3:AUTO42002";
         final URN_Parser parser = URN_Parser.buildParser(urn_auto);
-        assertEquals("crs",          parser.type.name);
-        assertEquals("AUTO",         parser.authority);
-        assertEquals("1.3",          parser.version.toString());
+        assertEquals("crs", parser.type.name);
+        assertEquals("AUTO", parser.authority);
+        assertEquals("1.3", parser.version.toString());
         assertEquals("42002", parser.code);
         assertEquals("AUTO:42002", parser.getAuthorityCode());
     }
 
-    @Test
-    public void testAutoNoVersion() throws NoSuchAuthorityCodeException {
+    @Test public void testAutoNoVersion() throws NoSuchAuthorityCodeException {
         final String urn_auto = "urn:ogc:def:crs:OGC:AUTO42002";
         final URN_Parser parser = URN_Parser.buildParser(urn_auto);
-        assertEquals("crs",          parser.type.name);
-        assertEquals("AUTO",         parser.authority);
-        assertNull(          parser.version);
+        assertEquals("crs", parser.type.name);
+        assertEquals("AUTO", parser.authority);
+        assertNull(parser.version);
         assertEquals("42002", parser.code);
         assertEquals("AUTO:42002", parser.getAuthorityCode());
     }
